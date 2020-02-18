@@ -21,9 +21,15 @@ class ViewController: UIViewController, ARSessionDelegate {
     let boxAnchor = AnchorEntity()
     var headAnchor = AnchorEntity()
     
+    var plusz: Float = 0
+    var reancor = false
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         arView.session.delegate = self
+        let transform = self.arView.cameraTransform
+        headAnchor.transform = transform
+
         
         guard ARBodyTrackingConfiguration.isSupported else {
             fatalError("This feature is only supported on devices with an A12 chip")
@@ -59,12 +65,16 @@ class ViewController: UIViewController, ARSessionDelegate {
         for child in boxAnchor.children {
             headAnchor.addChild(child)
         }
-        
+//        headAnchor = boxAnchor.clone(recursive: true)
+        headAnchor.position = boxAnchor.position
+//        headAnchor = boxAnchor
+//        headAnchor = boxAnchor.clone(recursive: true)
+//        headAnchor.transform = boxAnchor.transform
         boxAnchor.children.removeAll()
     }
     
     
-    func addBox(anchor: ARAnchor)  {
+    func addBox()  {
 //        boxAnchor = AnchorEntity()
         let box = ModelEntity (
             mesh: MeshResource.generateBox(size: 0.1),
@@ -80,6 +90,11 @@ class ViewController: UIViewController, ARSessionDelegate {
 //        boxAnchor.position.z  -= 1
 //        arView.scene.anchors.append(box)
 //        arView.scene.addAnchor(box)
+        if !reancor {
+            plusz = plus.z
+            boxAnchor.position = simd_make_float3(plus.x, plus.y, plus.z)
+            reancor = true
+        }
         boxAnchor.addChild(box)
 //        return boxAnchor
     }
@@ -97,9 +112,18 @@ class ViewController: UIViewController, ARSessionDelegate {
             let headPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .head)!.columns.3)
 
             let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
-            headAnchor.anchoring = .init(<#T##target: AnchoringComponent.Target##AnchoringComponent.Target#>)
+//            headAnchor.anchoring = .init(<#T##target: AnchoringComponent.Target##AnchoringComponent.Target#>)
             characterAnchor.position = bodyPosition
+//            headAnchor.setParent(character)
+//            headAnchor.setPosition(bodyPosition + headPosition, relativeTo: character)
+//          let tr = Transform(scale: [1.0, 1.0, 1.0], rotation: Transform(matrix: bodyAnchor.transform).rotation, translation: Transform(matrix: bodyAnchor.transform).translation)
+//            headAnchor.transform = .init(matrix: float4x4(columns: ))
+            
+            characterAnchor.addChild(headAnchor)
             headAnchor.position = bodyPosition + headPosition
+            headAnchor.position.z += plusz
+
+//            headAnchor.transform = Transform(matrix: float4x4.ze)
 //            if boxAnchor.position == SIMD3<Float>.zero {
 //                boxAnchor.position = simd_make_float3(self.arView.cameraTransform.translation.x, self.arView.cameraTransform.translation.y, self.arView.cameraTransform.translation.z - 1)
 //            }
@@ -113,6 +137,7 @@ class ViewController: UIViewController, ARSessionDelegate {
 
             if let character = character, character.parent == nil {
                 characterAnchor.addChild(character)
+//                headAnchor.position = headAnchor.convert(position: bodyPosition + headPosition, to: character)
 //                boxAnchor.addChild(box)
             }
         }
@@ -123,12 +148,8 @@ class ViewController: UIViewController, ARSessionDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let matrix = self.arView?.cameraTransform.matrix {
-            let arAnchor = ARAnchor(name: "enes\(counter)", transform: matrix)
-            self.arView.session.add(anchor: arAnchor)
 //            self.arView.scene.addAnchor(addBox())
-            addBox(anchor: arAnchor)
-        }
+        addBox()
     }
     
 
