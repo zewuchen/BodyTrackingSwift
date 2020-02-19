@@ -15,6 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let defaults = UserDefaults()
+        let opened = defaults.bool(forKey: "opened")
+        
+        if !opened{
+            UserDefaults().set(0.5, forKey: "Color")
+            defaults.set(true, forKey: "opened")
+        }
+        
         return true
     }
 

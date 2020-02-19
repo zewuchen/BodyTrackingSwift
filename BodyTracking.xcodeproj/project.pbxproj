@@ -13,6 +13,8 @@
 		CB24B0AF23F70AE70093C6BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB24B0AE23F70AE70093C6BC /* Assets.xcassets */; };
 		CB24B0B223F70AE70093C6BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB24B0B023F70AE70093C6BC /* LaunchScreen.storyboard */; };
 		CB24B0BA23F70B890093C6BC /* character in Resources */ = {isa = PBXBuildFile; fileRef = CB24B0B923F70B890093C6BC /* character */; };
+		CB9E534623FD8DC90026C6E2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E534423FD8DC90026C6E2 /* SettingsViewController.swift */; };
+		CB9E534723FD8DC90026C6E2 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB9E534523FD8DC90026C6E2 /* SettingsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		CB24B0B123F70AE70093C6BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB24B0B323F70AE70093C6BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB24B0B923F70B890093C6BC /* character */ = {isa = PBXFileReference; lastKnownFileType = folder; path = character; sourceTree = "<group>"; };
+		CB9E534423FD8DC90026C6E2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CB9E534523FD8DC90026C6E2 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,8 @@
 			children = (
 				CB24B0A523F70AE40093C6BC /* AppDelegate.swift */,
 				CB24B0A723F70AE40093C6BC /* ViewController.swift */,
+				CB9E534423FD8DC90026C6E2 /* SettingsViewController.swift */,
+				CB9E534523FD8DC90026C6E2 /* SettingsViewController.xib */,
 				CB24B0B923F70B890093C6BC /* character */,
 				CB24B0AB23F70AE40093C6BC /* Main.storyboard */,
 				CB24B0AE23F70AE70093C6BC /* Assets.xcassets */,
@@ -128,6 +134,7 @@
 				CB24B0AF23F70AE70093C6BC /* Assets.xcassets in Resources */,
 				CB24B0BA23F70B890093C6BC /* character in Resources */,
 				CB24B0AD23F70AE40093C6BC /* Main.storyboard in Resources */,
+				CB9E534723FD8DC90026C6E2 /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +147,7 @@
 			files = (
 				CB24B0A823F70AE40093C6BC /* ViewController.swift in Sources */,
 				CB24B0A623F70AE40093C6BC /* AppDelegate.swift in Sources */,
+				CB9E534623FD8DC90026C6E2 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +292,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DHAN829484;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BodyTracking/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -302,7 +310,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DHAN829484;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BodyTracking/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

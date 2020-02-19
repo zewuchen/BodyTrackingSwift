@@ -76,9 +76,10 @@ class ViewController: UIViewController, ARSessionDelegate {
     
     func addBox()  {
 //        boxAnchor = AnchorEntity()
+        let color = UIColor(hue: CGFloat(UserDefaults.standard.float(forKey: "Color")), saturation: 1, brightness: 1, alpha: 1)
         let box = ModelEntity (
             mesh: MeshResource.generateBox(size: 0.1),
-            materials: [SimpleMaterial(color: .red, isMetallic: false)])
+            materials: [SimpleMaterial(color: color, isMetallic: false)])
         
         let transform = self.arView.cameraTransform
         let orientation = SCNVector3(x: -transform.matrix.columns.2.x, y: -transform.matrix.columns.2.y, z: -transform.matrix.columns.2.z)
@@ -156,6 +157,20 @@ class ViewController: UIViewController, ARSessionDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        counter += 1
+    }
+    
+    @IBAction func btnSettings(_ sender: Any) {
+        let newVC = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
+        newVC.modalPresentationStyle = .overCurrentContext
+        newVC.view.backgroundColor = .white
+        
+        let navController = UINavigationController(rootViewController: newVC)
+        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navController.navigationBar.shadowImage = UIImage()
+        navController.navigationBar.isTranslucent = true
+        navController.view.backgroundColor = .clear
+        
+        self.present(navController, animated: true, completion: nil)
     }
     
 }
