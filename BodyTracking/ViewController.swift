@@ -18,14 +18,16 @@ class ViewController: UIViewController, ARSessionDelegate {
     var character: BodyTrackedEntity?
     let characterOffset: SIMD3<Float> = [0, 1, 0]
     let characterAnchor = AnchorEntity()
-    var counter = 0
+
     let boxAnchor = AnchorEntity()
+
     var headAnchor = AnchorEntity()
     var leftHandAnchor = AnchorEntity()
     var rightHandAnchor = AnchorEntity()
     var rightFootAnchor = AnchorEntity()
     var leftFootAnchor = AnchorEntity()
-    var cells: [String] = ["cabeça", "mão-direita", "mão-esquerda", "pé-direito", "pé-esquerdo"]
+
+    var cellImages: [String] = ["cabeça", "mão-direita", "mão-esquerda", "pé-direito", "pé-esquerdo"]
     var CUSTOMCELL = "CustomCollectionViewCell"
     
     var plusz: Float = 0
@@ -34,8 +36,6 @@ class ViewController: UIViewController, ARSessionDelegate {
     let defauts = UserDefaults()
     
     @IBOutlet weak var slider: UISlider!
-    
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -56,8 +56,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         arView.session.delegate = self
         let transform = self.arView.cameraTransform
         headAnchor.transform = transform
-        
-        
+
         guard ARBodyTrackingConfiguration.isSupported else {
             fatalError("This feature is only supported on devices with an A12 chip")
         }
@@ -91,15 +90,6 @@ class ViewController: UIViewController, ARSessionDelegate {
         })
     }
     
-    func moveBoxToAnchor(_ anchor: AnchorEntity) {
-        for child in boxAnchor.children {
-            anchor.addChild(child)
-        }
-        anchor.position = boxAnchor.position
-        boxAnchor.children.removeAll()
-    }
-    
-    
     func addBox()  {
         let color = UIColor(hue: CGFloat(UserDefaults.standard.float(forKey: "Color")), saturation: 1, brightness: 1, alpha: 1)
         let box = ModelEntity (
@@ -110,7 +100,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         let orientation = SCNVector3(x: -transform.matrix.columns.2.x, y: -transform.matrix.columns.2.y, z: -transform.matrix.columns.2.z)
         let location = SCNVector3(x: transform.matrix.columns.3.x, y: transform.matrix.columns.3.y, z: transform.matrix.columns.3.z)
         let plus =  SCNVector3Make(orientation.x + location.x, orientation.y + location.y, orientation.z + location.z)
-        box.position = simd_make_float3(plus.x, plus.y, plus.z)
+        box.position = simd_make_float3(0, 0, 0)
         if !reancor {
             plusz = plus.z
             boxAnchor.position = simd_make_float3(plus.x, plus.y, plus.z)
@@ -118,26 +108,37 @@ class ViewController: UIViewController, ARSessionDelegate {
         }
         boxAnchor.addChild(box)
     }
+
+    func moveBoxToAnchor(_ anchor: AnchorEntity) {
+
+        anchor.children.removeAll()
+
+        for child in boxAnchor.children {
+            anchor.addChild(child)
+        }
+        anchor.position = boxAnchor.position
+        boxAnchor.children.removeAll()
+    }
+
+    func setPositionOf(anchor: AnchorEntity, position: simd_float3, bodyAnchor: ARBodyAnchor) {
+        anchor.anchoring = AnchoringComponent(.body)
+        anchor.position = simd_make_float3(0, 0, 0) + position
+        anchor.orientation = Transform(matrix: bodyAnchor.transform).rotation
+    }
     
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
         for anchor in anchors {
             guard let bodyAnchor = anchor as? ARBodyAnchor else { continue }
-            
-            // Update the position of the character anchor's position.
-            let rightPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .rightHand)!.columns.3)
+
             let headPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .head)!.columns.3)
-            
             let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
+
             characterAnchor.position = bodyPosition
-            
             characterAnchor.addChild(headAnchor)
-            headAnchor.position = bodyPosition + headPosition
-            headAnchor.position.z += plusz
-            
-            
             characterAnchor.orientation = Transform(matrix: bodyAnchor.transform).rotation
-            headAnchor.orientation = Transform(matrix: bodyAnchor.transform).rotation
-            
+
+            setPositionOf(anchor: headAnchor, position: headPosition, bodyAnchor: bodyAnchor)
+
             if let character = character, character.parent == nil {
                 characterAnchor.addChild(character)
             }
@@ -151,7 +152,6 @@ class ViewController: UIViewController, ARSessionDelegate {
     @IBAction func changedValueSlider(_ sender: Any) {
         let color = UIColor(hue: CGFloat(slider.value), saturation: 1, brightness: 1, alpha: 1)
         slider.tintColor = color
-        
         defauts.set(CGFloat(slider.value), forKey: "Color")
     }
     
@@ -160,12 +160,12 @@ class ViewController: UIViewController, ARSessionDelegate {
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cells.count
+        return cellImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CUSTOMCELL, for: indexPath) as? CustomCollectionViewCell
-        cell?.image.image = UIImage(named: cells[indexPath.row])
+        cell?.image.image = UIImage(named: cellImages[indexPath.row])
         return cell ?? CustomCollectionViewCell()
     }
     
