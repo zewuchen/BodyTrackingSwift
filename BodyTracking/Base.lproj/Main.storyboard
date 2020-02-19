@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,6 +20,12 @@
                                 <rect key="frame" x="-1" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </arView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="niv-7q-R3c">
+                                <rect key="frame" x="0.0" y="696" width="414" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="LGD-ma-yZ8"/>
+                                </constraints>
+                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NSQ-Bc-cTY">
                                 <rect key="frame" x="0.0" y="762" width="414" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -45,7 +51,7 @@
                                 </cells>
                             </collectionView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="jwQ-8L-AiO">
-                                <rect key="frame" x="-2" y="704" width="408" height="51"/>
+                                <rect key="frame" x="18" y="704" width="378" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="mSb-xa-cO4"/>
                                 </constraints>
@@ -57,16 +63,20 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Oqm-AA-dDT" firstAttribute="trailing" secondItem="NSQ-Bc-cTY" secondAttribute="trailing" id="Fjr-R7-7hi"/>
-                            <constraint firstItem="jwQ-8L-AiO" firstAttribute="leading" secondItem="Oqm-AA-dDT" secondAttribute="leading" id="H91-FD-L8Y"/>
+                            <constraint firstItem="jwQ-8L-AiO" firstAttribute="leading" secondItem="Oqm-AA-dDT" secondAttribute="leading" constant="20" id="H91-FD-L8Y"/>
                             <constraint firstItem="NSQ-Bc-cTY" firstAttribute="leading" secondItem="Oqm-AA-dDT" secondAttribute="leading" id="Hpj-ek-cBE"/>
                             <constraint firstItem="Oqm-AA-dDT" firstAttribute="bottom" secondItem="NSQ-Bc-cTY" secondAttribute="bottom" id="aid-sL-G0A"/>
+                            <constraint firstAttribute="bottom" secondItem="niv-7q-R3c" secondAttribute="bottom" id="gfj-ph-sMd"/>
                             <constraint firstItem="NSQ-Bc-cTY" firstAttribute="top" secondItem="jwQ-8L-AiO" secondAttribute="bottom" constant="8" symbolic="YES" id="h7S-aL-5r1"/>
-                            <constraint firstItem="Oqm-AA-dDT" firstAttribute="trailing" secondItem="jwQ-8L-AiO" secondAttribute="trailing" constant="10" id="uSR-6C-H2H"/>
+                            <constraint firstItem="niv-7q-R3c" firstAttribute="leading" secondItem="Oqm-AA-dDT" secondAttribute="leading" id="kte-aO-9ZD"/>
+                            <constraint firstItem="niv-7q-R3c" firstAttribute="trailing" secondItem="Oqm-AA-dDT" secondAttribute="trailing" id="pNx-Hf-Unv"/>
+                            <constraint firstItem="Oqm-AA-dDT" firstAttribute="trailing" secondItem="jwQ-8L-AiO" secondAttribute="trailing" constant="20" id="uSR-6C-H2H"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Oqm-AA-dDT"/>
                     </view>
                     <connections>
                         <outlet property="arView" destination="f1t-1p-eGg" id="ZI0-4S-98P"/>
+                        <outlet property="blurView" destination="niv-7q-R3c" id="hx0-dy-BbO"/>
                         <outlet property="collectionView" destination="NSQ-Bc-cTY" id="tHz-2M-tu6"/>
                         <outlet property="slider" destination="jwQ-8L-AiO" id="OUm-dw-JxK"/>
                     </connections>

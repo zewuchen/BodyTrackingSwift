@@ -27,7 +27,7 @@ class ViewController: UIViewController, ARSessionDelegate {
     var rightFootAnchor = AnchorEntity()
     var leftFootAnchor = AnchorEntity()
 
-    var cellImages: [String] = ["cabeça", "mão-direita", "mão-esquerda", "pé-direito", "pé-esquerdo"]
+    var cellImages: [String] = ["cabeça", "mão-direita",  "pé-direito", "mão-esquerda", "pé-esquerdo"]
     var CUSTOMCELL = "CustomCollectionViewCell"
     
     var plusz: Float = 0
@@ -35,6 +35,7 @@ class ViewController: UIViewController, ARSessionDelegate {
     
     let defauts = UserDefaults()
     
+    @IBOutlet weak var blurView: UIView!
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -49,6 +50,12 @@ class ViewController: UIViewController, ARSessionDelegate {
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: CUSTOMCELL, bundle: nil), forCellWithReuseIdentifier: CUSTOMCELL)
         collectionView.delegate = self
+
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = blurView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.addSubview(blurEffectView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
