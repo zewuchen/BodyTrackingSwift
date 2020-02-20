@@ -15,6 +15,7 @@
 		CB24B0BA23F70B890093C6BC /* character in Resources */ = {isa = PBXBuildFile; fileRef = CB24B0B923F70B890093C6BC /* character */; };
 		CB9E534A23FDA2EC0026C6E2 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E534823FDA2EC0026C6E2 /* CustomCollectionViewCell.swift */; };
 		CB9E534B23FDA2EC0026C6E2 /* CustomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB9E534923FDA2EC0026C6E2 /* CustomCollectionViewCell.xib */; };
+		CBC0FD6923FEEB360059DC54 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0FD6823FEEB360059DC54 /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		CB24B0B923F70B890093C6BC /* character */ = {isa = PBXFileReference; lastKnownFileType = folder; path = character; sourceTree = "<group>"; };
 		CB9E534823FDA2EC0026C6E2 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		CB9E534923FDA2EC0026C6E2 /* CustomCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewCell.xib; sourceTree = "<group>"; };
+		CBC0FD6823FEEB360059DC54 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				CB24B0A523F70AE40093C6BC /* AppDelegate.swift */,
 				CB24B0A723F70AE40093C6BC /* ViewController.swift */,
+				CBC0FD6823FEEB360059DC54 /* MenuViewController.swift */,
 				CB9E534823FDA2EC0026C6E2 /* CustomCollectionViewCell.swift */,
 				CB9E534923FDA2EC0026C6E2 /* CustomCollectionViewCell.xib */,
 				CB24B0B923F70B890093C6BC /* character */,
@@ -148,6 +151,7 @@
 				CB24B0A823F70AE40093C6BC /* ViewController.swift in Sources */,
 				CB24B0A623F70AE40093C6BC /* AppDelegate.swift in Sources */,
 				CB9E534A23FDA2EC0026C6E2 /* CustomCollectionViewCell.swift in Sources */,
+				CBC0FD6923FEEB360059DC54 /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
