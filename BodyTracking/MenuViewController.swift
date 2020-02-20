@@ -22,7 +22,6 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         previewView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-//        previewView.contentMode = UIView.ContentMode.scaleToFill
         view.addSubview(previewView)
         view.sendSubviewToBack(previewView)
         self.setupAVCapture()

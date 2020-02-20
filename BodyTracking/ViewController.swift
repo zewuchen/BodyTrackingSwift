@@ -59,6 +59,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = blurView.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0.5
         blurView.addSubview(blurEffectView)
     }
     
@@ -120,10 +121,11 @@ class ViewController: UIViewController, ARSessionDelegate {
                 let position = simd_make_float3(plus.x, plus.y, plus.z)
                 
                 if let ofset = offset {
-        //            ofset.z -= plus.z
+//                    ofset.z -= plus.z
                     var aux = pos
                     aux.z = plus.z
                     box.position = aux - ofset
+//                    box.position = ofset
                 } else {
                     offset = pos
                     box.position = simd_make_float3(0, 0, 0)
