@@ -27,11 +27,14 @@ class ViewController: UIViewController, ARSessionDelegate {
     var rightFootAnchor = AnchorEntity()
     var leftFootAnchor = AnchorEntity()
 
+
     var cellImages: [String] = ["cabeça", "mão-direita",  "pé-direito", "mão-esquerda", "pé-esquerdo"]
     var CUSTOMCELL = "CustomCollectionViewCell"
     
     var plusz: Float = 0
     var reancor = false
+    var mayDraw = true
+    var offset: SIMD3<Float>?
     
     let defauts = UserDefaults()
     
@@ -40,6 +43,7 @@ class ViewController: UIViewController, ARSessionDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         slider.minimumValue = 0.0
         slider.maximumValue = 1.0
         
@@ -60,6 +64,8 @@ class ViewController: UIViewController, ARSessionDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(fire), userInfo: nil, repeats: true)
+
         arView.session.delegate = self
         let transform = self.arView.cameraTransform
         headAnchor.transform = transform
@@ -97,34 +103,54 @@ class ViewController: UIViewController, ARSessionDelegate {
         })
     }
     
-    func addBox()  {
+    @objc func fire(){
+        mayDraw = true
+    }
+    
+    func addBox(pos:  SIMD3<Float>)  {
         let color = UIColor(hue: CGFloat(UserDefaults.standard.float(forKey: "Color")), saturation: 1, brightness: 1, alpha: 1)
         let box = ModelEntity (
-            mesh: MeshResource.generateBox(size: 0.1),
-            materials: [SimpleMaterial(color: color, isMetallic: false)])
+                    mesh: MeshResource.generateSphere(radius: 0.02),
+        //            materials: [UnlitMaterial(color: .red)])
+                    materials: [UnlitMaterial(color: color)])
+                let transform = self.arView.cameraTransform
+                let orientation = SCNVector3(x: -transform.matrix.columns.2.x, y: -transform.matrix.columns.2.y, z: -transform.matrix.columns.2.z)
+                let location = SCNVector3(x: transform.matrix.columns.3.x, y: transform.matrix.columns.3.y, z: transform.matrix.columns.3.z)
+                let plus =  SCNVector3Make(orientation.x + location.x, orientation.y + location.y, orientation.z + location.z)
+                let position = simd_make_float3(plus.x, plus.y, plus.z)
+                
+                if let ofset = offset {
+        //            ofset.z -= plus.z
+                    var aux = pos
+                    aux.z = plus.z
+                    box.position = aux - ofset
+                } else {
+                    offset = pos
+                    box.position = simd_make_float3(0, 0, 0)
+                }
+                
+                if !reancor {
+                    plusz = plus.z
+                    boxAnchor.position = position
+                    
+                    reancor = true
+                }
+                boxAnchor.addChild(box)
         
-        let transform = self.arView.cameraTransform
-        let orientation = SCNVector3(x: -transform.matrix.columns.2.x, y: -transform.matrix.columns.2.y, z: -transform.matrix.columns.2.z)
-        let location = SCNVector3(x: transform.matrix.columns.3.x, y: transform.matrix.columns.3.y, z: transform.matrix.columns.3.z)
-        let plus =  SCNVector3Make(orientation.x + location.x, orientation.y + location.y, orientation.z + location.z)
-        box.position = simd_make_float3(0, 0, 0)
-        if !reancor {
-            plusz = plus.z
-            boxAnchor.position = simd_make_float3(plus.x, plus.y, plus.z)
-            reancor = true
-        }
-        boxAnchor.addChild(box)
     }
 
     func moveBoxToAnchor(_ anchor: AnchorEntity) {
 
         anchor.children.removeAll()
-
         for child in boxAnchor.children {
             anchor.addChild(child)
         }
         anchor.position = boxAnchor.position
+        
         boxAnchor.children.removeAll()
+        // boxAnchor.removeFromParent() //TESTAR
+        offset = nil
+        reancor = false
     }
 
     func setPositionOf(anchor: AnchorEntity, position: simd_float3, bodyAnchor: ARBodyAnchor) {
@@ -138,22 +164,52 @@ class ViewController: UIViewController, ARSessionDelegate {
             guard let bodyAnchor = anchor as? ARBodyAnchor else { continue }
 
             let headPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .head)!.columns.3)
+            let rightHandPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .rightHand)!.columns.3)
+            let leftHandPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .leftHand)!.columns.3)
+            let rightFootPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .rightFoot)!.columns.3)
+            let leftFootPosition = simd_make_float3(bodyAnchor.skeleton.modelTransform(for: .leftFoot)!.columns.3)
+            
             let bodyPosition = simd_make_float3(bodyAnchor.transform.columns.3)
 
             characterAnchor.position = bodyPosition
-            characterAnchor.addChild(headAnchor)
+            
             characterAnchor.orientation = Transform(matrix: bodyAnchor.transform).rotation
 
             setPositionOf(anchor: headAnchor, position: headPosition, bodyAnchor: bodyAnchor)
-
+            setPositionOf(anchor: rightHandAnchor, position: rightHandPosition, bodyAnchor: bodyAnchor)
+            setPositionOf(anchor: leftHandAnchor, position: leftHandPosition, bodyAnchor: bodyAnchor)
+            setPositionOf(anchor: rightFootAnchor, position: rightFootPosition, bodyAnchor: bodyAnchor)
+            setPositionOf(anchor: leftFootAnchor, position: leftFootPosition, bodyAnchor: bodyAnchor)
             if let character = character, character.parent == nil {
-                characterAnchor.addChild(character)
+//                characterAnchor.addChild(character)
+                characterAnchor.addChild(headAnchor)
+                characterAnchor.addChild(rightHandAnchor)
+                characterAnchor.addChild(leftHandAnchor)
+                characterAnchor.addChild(rightFootAnchor)
+                characterAnchor.addChild(leftFootAnchor)
+            } else {
+                characterAnchor.addChild(headAnchor)
+                characterAnchor.addChild(rightHandAnchor)
+                characterAnchor.addChild(leftHandAnchor)
+                characterAnchor.addChild(rightFootAnchor)
+                characterAnchor.addChild(leftFootAnchor)
             }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        addBox()
+        let transform = self.arView.cameraTransform
+                let orientation = SCNVector3(x: -transform.matrix.columns.2.x, y: -transform.matrix.columns.2.y, z: -transform.matrix.columns.2.z)
+                let location = SCNVector3(x: transform.matrix.columns.3.x, y: transform.matrix.columns.3.y, z: transform.matrix.columns.3.z)
+                let plus =  SCNVector3Make(orientation.x + location.x, orientation.y + location.y, orientation.z + location.z)
+                for touch in touches {
+                    let p = touch.location(in: arView)
+                    if mayDraw {
+                        let pos = simd_make_float3(Float(p.x)/1000, Float(-p.y)/1000, plus.z)
+                        addBox(pos: pos)
+                        mayDraw = false
+                    }
+                }
     }
     
     @IBAction func changedValueSlider(_ sender: Any) {
@@ -183,9 +239,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         case 1:
             moveBoxToAnchor(rightHandAnchor)
         case 2:
-            moveBoxToAnchor(leftHandAnchor)
-        case 3:
             moveBoxToAnchor(rightFootAnchor)
+        case 3:
+            moveBoxToAnchor(leftHandAnchor)
         case 4:
             moveBoxToAnchor(leftFootAnchor)
         default:
