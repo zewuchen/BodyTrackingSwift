@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CB24B0A223F70AE40093C6BC /* BodyTracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BodyTracking.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB24B0A223F70AE40093C6BC /* SketchMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SketchMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB24B0A523F70AE40093C6BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB24B0A723F70AE40093C6BC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CB24B0AC23F70AE40093C6BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		CB24B0A323F70AE40093C6BC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CB24B0A223F70AE40093C6BC /* BodyTracking.app */,
+				CB24B0A223F70AE40093C6BC /* SketchMe.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,7 +93,7 @@
 			);
 			name = BodyTracking;
 			productName = BodyTracking;
-			productReference = CB24B0A223F70AE40093C6BC /* BodyTracking.app */;
+			productReference = CB24B0A223F70AE40093C6BC /* SketchMe.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -303,7 +303,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.bodytracking.BodyTracking;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SketchMe;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -321,7 +321,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.bodytracking.BodyTracking;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SketchMe;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
